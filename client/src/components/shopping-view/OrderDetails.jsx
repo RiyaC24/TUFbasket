@@ -1,0 +1,123 @@
+import { useSelector } from "react-redux";
+import { Badge } from "../ui/Badge";
+import { Button } from "../ui/Button";
+import { DialogContent } from "../ui/Dialog";
+import { Label } from "../ui/Label";
+import { Separator } from "../ui/Separator";
+import { Download } from "lucide-react";
+
+const url = import.meta.env.VITE_BASE_URL;
+
+function ShoppingOrderDetailsView({ orderDetails }) {
+  const { user } = useSelector((state) => state.auth);
+
+  return (
+    <DialogContent className="sm:max-w-[600px] bg-white text-black">
+      <div className="grid gap-6">
+        <div className="grid gap-2">
+          <div className="flex mt-6 items-center justify-between">
+            <p className="font-medium">Order ID</p>
+            <Label>{orderDetails?._id}</Label>
+          </div>
+          <div className="flex mt-2 items-center justify-between">
+            <p className="font-medium">Order Date</p>
+            <Label>{orderDetails?.orderDate.split("T")[0]}</Label>
+          </div>
+          <div className="flex mt-2 items-center justify-between">
+            <p className="font-medium">Order Price</p>
+            <Label>₹{orderDetails?.totalAmount}</Label>
+          </div>
+          {orderDetails?.discountAmount > 0 ? (
+            <div className="flex mt-2 items-center justify-between">
+              <p className="font-medium">Coupon Applied</p>
+              <Label>
+                {orderDetails?.couponCode} (-₹{orderDetails?.discountAmount})
+              </Label>
+            </div>
+          ) : null}
+          <div className="flex mt-2 items-center justify-between">
+            <p className="font-medium">Payment method</p>
+            <Label>{orderDetails?.paymentMethod}</Label>
+          </div>
+          <div className="flex mt-2 items-center justify-between">
+            <p className="font-medium">Payment Status</p>
+            <Label>
+              <Badge
+                className={`py-1 px-3 ${
+                  orderDetails?.paymentStatus === "paid"
+                    ? "bg-green-500"
+                    : orderDetails?.paymentStatus === "failed"
+                    ? "bg-red-600"
+                    : orderDetails?.paymentStatus === "pending-verification"
+                    ? "bg-yellow-500"
+                    : "bg-gray-300 text-black"
+                }`}
+              >
+                {orderDetails?.paymentStatus}
+              </Badge>
+            </Label>
+          </div>
+          <div className="flex mt-2 items-center justify-between">
+            <p className="font-medium">Order Status</p>
+            <Label>
+              <Badge
+                className={`py-1 px-3 ${
+                  orderDetails?.orderStatus === "delivered"
+                    ? "bg-green-500"
+                    : orderDetails?.orderStatus === "rejected"
+                    ? "bg-red-600"
+                    : "bg-gray-300 text-black"
+                }`}
+              >
+                {orderDetails?.orderStatus}
+              </Badge>
+            </Label>
+          </div>
+        </div>
+        <Separator />
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <div className="font-medium">Order Details</div>
+            <ul className="grid gap-3">
+              {orderDetails?.cartItems && orderDetails?.cartItems.length > 0
+                ? orderDetails?.cartItems.map((item, i) => (
+                    <li key={i} className="flex items-center justify-between">
+                      <span>Title: {item.title}</span>
+                      <span>Quantity: {item.quantity}</span>
+                      <span>Price: ₹{item.price}</span>
+                    </li>
+                  ))
+                : null}
+            </ul>
+          </div>
+        </div>
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <div className="font-medium">Shipping Info</div>
+            <div className="grid gap-0.5 text-muted-foreground">
+              <span>{user.userName}</span>
+              <span>{orderDetails?.addressInfo?.address}</span>
+              <span>{orderDetails?.addressInfo?.city}</span>
+              <span>{orderDetails?.addressInfo?.pincode}</span>
+              <span>{orderDetails?.addressInfo?.phone}</span>
+              <span>{orderDetails?.addressInfo?.notes}</span>
+            </div>
+          </div>
+        </div>
+        {orderDetails?.paymentStatus === "paid" ? (
+          <a
+            href={`${url}/api/shop/order/invoice/${orderDetails?._id}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button variant="outline" className="w-full flex gap-2">
+              <Download className="w-4 h-4" /> Download Invoice
+            </Button>
+          </a>
+        ) : null}
+      </div>
+    </DialogContent>
+  );
+}
+
+export default ShoppingOrderDetailsView;
