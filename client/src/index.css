@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/* =========================
+   THEME (light + dark vars)
+   ========================= */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 47% 11%;
+
+    /* Primary - Blue (trust + professionalism) */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Warm gray */
+    --secondary: 210 16% 93%;
+    --secondary-foreground: 222 47% 11%;
+
+    /* Muted - Light gray for subtle elements */
+    --muted: 210 16% 95%;
+    --muted-foreground: 215 20% 50%;
+
+    /* Accent - Modern orange for CTAs */
+    --accent: 25 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive - Red for errors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and focus rings */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 100%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Primary - Slightly brighter blue */
+    --primary: 217 91% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Dark gray */
+    --secondary: 217 19% 27%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted - Gray tones for text */
+    --muted: 217 19% 27%;
+    --muted-foreground: 214 20% 70%;
+
+    /* Accent - Orange CTA */
+    --accent: 25 95% 63%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive - Softer red */
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and rings */
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 217 91% 65%;
+  }
+}
+
+/* =========================
+   UTILITIES (bg/text colors)
+   ========================= */
+@layer utilities {
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+  .text-primary-foreground {
+    color: hsl(var(--primary-foreground));
+  }
+
+  .bg-popover {
+    background-color: hsl(var(--popover));
+  }
+  .text-popover-foreground {
+    color: hsl(var(--popover-foreground));
+  }
+
+  .bg-secondary {
+    background-color: hsl(var(--secondary));
+  }
+  .text-secondary-foreground {
+    color: hsl(var(--secondary-foreground));
+  }
+
+  .bg-accent {
+    background-color: hsl(var(--accent));
+  }
+  .text-accent-foreground {
+    color: hsl(var(--accent-foreground));
+  }
+
+  .bg-destructive {
+    background-color: hsl(var(--destructive));
+  }
+  .text-destructive-foreground {
+    color: hsl(var(--destructive-foreground));
+  }
+
+  .bg-muted {
+    background-color: hsl(var(--muted));
+  }
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .bg-card {
+    background-color: hsl(var(--card));
+  }
+  .text-card-foreground {
+    color: hsl(var(--card-foreground));
+  }
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+@keyframes accordion-down {
+  from { height: 0 }
+  to { height: var(--radix-accordion-content-height) }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height) }
+  to { height: 0 }
+}
+
+@utility accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+@utility accordion-up {
+  animation: accordion-up 0.2s ease-out;
+}
